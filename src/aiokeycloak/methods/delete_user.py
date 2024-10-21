@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 from uuid import UUID
 
-from aiokeycloack.methods.base import (
+from aiokeycloak.methods.base import (
     HTTPMethodType,
     KeycloakMethod,
     RequestContext,
 )
-from aiokeycloack.types.common import Success
+from aiokeycloak.types.common import Success
 
 
 @dataclass(frozen=True, slots=True)

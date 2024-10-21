@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 from uuid import UUID
 
-from aiokeycloack.methods.base import (
+from aiokeycloak.methods.base import (
     HTTPMethodType,
     KeycloakMethod,
     RequestContext,
 )
-from aiokeycloack.types.user_representation import UserRepresentation
+from aiokeycloak.types.user_representation import UserRepresentation
 
 
 @dataclass(frozen=True, slots=True)

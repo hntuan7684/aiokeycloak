@@ -4,19 +4,19 @@ from types import TracebackType
 from typing import Any, TypeVar
 from uuid import UUID
 
-from aiokeycloack.methods.base import KeycloakMethod
-from aiokeycloack.methods.delete_user import DeleteUser
-from aiokeycloack.methods.get_realm import GetRealm
-from aiokeycloack.methods.get_realm_roles import GetRealmRoles
-from aiokeycloack.session.aiohttp import AioHTTPKeycloakSession
-from aiokeycloack.session.base import KeycloakSession
-from aiokeycloack.token_decoders.access import (
+from aiokeycloak.methods.base import KeycloakMethod
+from aiokeycloak.methods.delete_user import DeleteUser
+from aiokeycloak.methods.get_realm import GetRealm
+from aiokeycloak.methods.get_realm_roles import GetRealmRoles
+from aiokeycloak.session.aiohttp import AioHTTPKeycloakSession
+from aiokeycloak.session.base import KeycloakSession
+from aiokeycloak.token_decoders.access import (
     AccessTokenDecoder,
 )
-from aiokeycloack.types.access_token import AccessToken
-from aiokeycloack.types.base import KeycloakType
-from aiokeycloack.types.realm import Realm
-from aiokeycloack.types.realm_roles import RealmRoles
+from aiokeycloak.types.access_token import AccessToken
+from aiokeycloak.types.base import KeycloakType
+from aiokeycloak.types.realm import Realm
+from aiokeycloak.types.realm_roles import RealmRoles
 
 
 T = TypeVar('T', bound=KeycloakType)
@@ -97,7 +97,7 @@ class KeycloakClient:
         await self._session.close()
 
 
-def aiokeycloack(
+def aiokeycloak(
     server_url: str,
     session: KeycloakSession | None = None
 ) -> KeycloakClient:

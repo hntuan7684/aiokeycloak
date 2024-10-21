@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from enum import auto, StrEnum
 from typing import Any, Protocol, TypeVar
 
-from aiokeycloack.types.base import KeycloakType
+from aiokeycloak.types.base import KeycloakType
 
 
 T = TypeVar('T', bound=KeycloakType)

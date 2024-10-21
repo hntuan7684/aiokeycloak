@@ -3,7 +3,7 @@ from typing import Any
 
 from adaptix import name_mapping, Retort
 
-from aiokeycloack.types.base import KeycloakType
+from aiokeycloak.types.base import KeycloakType
 
 retort = Retort(
     recipe=[
