@@ -1,0 +1,20 @@
+[project]
+name = 'aiokycloak'
+description = ''
+requires-python = '>= 3.10.0'
+version = '0.0.1'
+maintainers = [
+    { name = 'Ivan Kirpichnikov', email = 'mmssvvvv570@gmail.com' }
+]
+dependencies = [
+    'adaptix==3.0.0b7',
+    'jwcrypto==1.5.6',
+]
+
+[project.optional-dependencies]
+aiohttp = ['aiohttp==3.10.0']
+linters = [
+    'mypy==1.12.1',
+    'ruff==0.7.0',
+]
+dev = ['aiokycloak[linters]']
