@@ -7,14 +7,16 @@ from aiokeycloak.methods.base import KeycloakMethod
 from aiokeycloak.methods.delete_user import DeleteUser
 from aiokeycloak.methods.get_realm import GetRealm
 from aiokeycloak.methods.get_realm_roles import GetRealmRoles
+from aiokeycloak.methods.get_user import GetUser
+from aiokeycloak.methods.get_users import GetUsers
 from aiokeycloak.session.base import KeycloakSession
-from aiokeycloak.token_decoders.access import (
-    AccessTokenDecoder,
-)
+from aiokeycloak.token_decoders.access import AccessTokenDecoder
 from aiokeycloak.types.access_token import AccessToken
 from aiokeycloak.types.base import KeycloakType
 from aiokeycloak.types.realm import Realm
 from aiokeycloak.types.realm_roles import RealmRoles
+from aiokeycloak.types.user import User
+from aiokeycloak.types.users import Users
 
 
 T = TypeVar("T", bound=KeycloakType)
@@ -39,6 +41,7 @@ class KeycloakClient:
     async def get_realms_roles(
         self,
         realm_name: str,
+        *,
         max: int | None = None,
         first: int | None = None,
         search: str | None = None,
@@ -81,3 +84,46 @@ class KeycloakClient:
             access_token=self._access_token,
         )
         await self.send_request(method)
+
+    async def get_user(
+        self,
+        user_id: UUID,
+        realm_name: str,
+    ) -> User:
+        method = GetUser(
+            access_token=self._access_token,
+            realm_name=realm_name,
+            user_id=user_id,
+        )
+        return await self.send_request(method)
+
+    async def get_users(
+        self,
+        realm_name: str,
+        *,
+        brief_representation: bool | None = None,
+        email: str | None = None,
+        email_verified: bool | None = None,
+        enabled: bool | None = None,
+        exact: bool | None = None,
+        first: int | None = None,
+        first_name: str | None = None,
+        last_name: str | None = None,
+        max: int | None = None,
+        username: str | None = None,
+    ) -> Users:
+        method = GetUsers(
+            access_token=self._access_token,
+            realm_name=realm_name,
+            brief_representation=brief_representation,
+            email=email,
+            email_verified=email_verified,
+            enabled=enabled,
+            exact=exact,
+            first=first,
+            first_name=first_name,
+            last_name=last_name,
+            max=max,
+            username=username,
+        )
+        return await self.send_request(method)

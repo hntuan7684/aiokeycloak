@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Any
+from uuid import UUID
 
-from adaptix import name_mapping, Retort
+from adaptix import name_mapping, NameStyle, Retort
 
 from aiokeycloak.types.base import KeycloakType
 
@@ -56,8 +57,8 @@ class UserProfileMetadata(KeycloakType):
 
 
 @dataclass(frozen=True, slots=True)
-class UserRepresentation(KeycloakType):
-    id: str | None = None
+class User(KeycloakType):
+    id: UUID | None = None
     username: str | None = None
     first_name: str | None = None
     last_name: str | None = None
@@ -86,15 +87,23 @@ class UserRepresentation(KeycloakType):
     def from_data(
         cls,
         data: dict[str, str],
-    ) -> UserRepresentation:
-        pass
+    ) -> User:
+        return retort.load(data, cls)
 
 
 retort = Retort(
     recipe=[
         name_mapping(
             UserProfileAttributeMetadata,
-            map={"display_name": ("user_profile_metadata",)},
+            name_style=NameStyle.CAMEL,
+        ),
+        name_mapping(
+            User,
+            name_style=NameStyle.CAMEL,
+        ),
+        name_mapping(
+            UserProfileAttributeGroupMetadata,
+            name_style=NameStyle.CAMEL,
         ),
     ],
 )

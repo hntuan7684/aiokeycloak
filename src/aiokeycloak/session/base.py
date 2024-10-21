@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from asyncio import Protocol
 from dataclasses import dataclass
-from typing import Any, TypeVar
+from typing import Any, cast, TypeVar
 
 from aiokeycloak.methods.base import HTTPMethodType, KeycloakMethod
 from aiokeycloak.types.base import KeycloakType
@@ -40,7 +40,8 @@ class KeycloakSession(Protocol):
             ),
         )
         data = await self._send_request(send_request_ds)
-        return method.__returning__.from_data(data)
+        print(data)
+        return cast(T, method.__returning__.from_data(data))
 
     @abstractmethod
     async def close(self) -> None:
