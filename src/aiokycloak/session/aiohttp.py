@@ -5,8 +5,8 @@ from typing import (
 
 from aiohttp import ClientResponse, ClientSession, ContentTypeError
 
-from aiokeyclock.methods.base import HTTPMethodType
-from aiokeyclock.session.base import KeycloakSession, SendRequestDS
+from aiokeycloack.methods.base import HTTPMethodType
+from aiokeycloack.session.base import KeycloakSession, SendRequestDS
 
 
 T = TypeVar('T')

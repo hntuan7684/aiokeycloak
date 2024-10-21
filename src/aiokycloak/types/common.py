@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from aiokeyclock.types.base import KeycloakType
+from aiokeycloack.types.base import KeycloakType
 
 
 class Success(KeycloakType):

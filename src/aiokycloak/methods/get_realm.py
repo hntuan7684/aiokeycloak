@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 
-from aiokeyclock.methods.base import (
+from aiokeycloack.methods.base import (
     HTTPMethodType,
     KeycloakMethod,
     RequestContext,
 )
-from aiokeyclock.types.realm import Realm
+from aiokeycloack.types.realm import Realm
 
 
 @dataclass(frozen=True, slots=True)

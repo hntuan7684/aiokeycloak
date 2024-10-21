@@ -3,8 +3,8 @@ from asyncio import Protocol
 from dataclasses import dataclass
 from typing import Any, TypeVar
 
-from aiokeyclock.methods.base import HTTPMethodType, KeycloakMethod
-from aiokeyclock.types.base import KeycloakType
+from aiokeycloack.methods.base import HTTPMethodType, KeycloakMethod
+from aiokeycloack.types.base import KeycloakType
 
 
 T = TypeVar('T', bound=KeycloakType)

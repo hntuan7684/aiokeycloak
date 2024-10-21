@@ -6,7 +6,7 @@ from typing import Any
 
 from adaptix import name_mapping, Retort
 
-from aiokeyclock.types.base import KeycloakType
+from aiokeycloack.types.base import KeycloakType
 
 
 @dataclass(frozen=True, slots=True)

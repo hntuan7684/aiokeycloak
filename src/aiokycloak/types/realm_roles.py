@@ -3,8 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Iterable
 
-from aiokeyclock.types.realm_role import RealmRole
-from aiokeyclock.types.base import KeycloakType
+from aiokeycloack.types.realm_role import RealmRole
+from aiokeycloack.types.base import KeycloakType
 
 
 @dataclass(frozen=True, slots=True)

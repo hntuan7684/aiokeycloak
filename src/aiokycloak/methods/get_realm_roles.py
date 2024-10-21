@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 from typing import Any
 
-from aiokeyclock.methods.base import (
+from aiokeycloack.methods.base import (
     HTTPMethodType,
     KeycloakMethod,
     RequestContext,
 )
-from aiokeyclock.types.realm_roles import RealmRoles
+from aiokeycloack.types.realm_roles import RealmRoles
 
 
 @dataclass(frozen=True, slots=True)
