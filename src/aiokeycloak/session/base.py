@@ -3,6 +3,7 @@ from asyncio import Protocol
 from dataclasses import dataclass
 from typing import Any, cast, TypeVar
 
+from aiokeycloak.errors import KeycloakError
 from aiokeycloak.methods.base import HTTPMethodType, KeycloakMethod
 from aiokeycloak.types.base import KeycloakType
 
@@ -11,7 +12,7 @@ T = TypeVar("T", bound=KeycloakType)
 
 
 @dataclass(slots=True, frozen=True)
-class SendRequestDS:
+class RequestDS:
     url: str
     http_method: HTTPMethodType
     body: dict[str, str] | None = None
@@ -19,10 +20,33 @@ class SendRequestDS:
     query_parameters: dict[str, str] | None = None
 
 
-# TODO: сделать обработку ошибок
+@dataclass(slots=True, frozen=True)
+class ResponseDS:
+    url: str
+    body: Any
+    http_status: int
+
+
+def error_handling(response: ResponseDS) -> None:
+    if not isinstance(response.body, dict):
+        return None
+
+    if "error" not in response.body:
+        return None
+
+    error = response.body["error"]
+    raise KeycloakError(
+        "An error has occurred. Url %r. %r." % (response.url, error),
+        raw_error=error,
+        url=response.url,
+        body=response.body,
+        http_status=response.http_status,
+    )
+
+
 class KeycloakSession(Protocol):
     @abstractmethod
-    async def _send_request(self, data: SendRequestDS) -> Any:
+    async def _send_request(self, data: RequestDS) -> ResponseDS:
         raise NotImplementedError
 
     async def send_request(
@@ -30,7 +54,7 @@ class KeycloakSession(Protocol):
         method: KeycloakMethod[T],
     ) -> T:
         request_context = method.build_request_context()
-        send_request_ds = SendRequestDS(
+        send_request_ds = RequestDS(
             body=request_context.body,
             headers=request_context.headers,
             http_method=method.__http_method__,
@@ -40,7 +64,7 @@ class KeycloakSession(Protocol):
             ),
         )
         data = await self._send_request(send_request_ds)
-        print(data)
+        error_handling(data)
         return cast(T, method.__returning__.from_data(data))
 
     @abstractmethod
