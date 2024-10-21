@@ -12,4 +12,3 @@ class KeycloakType(Protocol):
         data: Any,
     ) -> KeycloakType:
         raise NotImplementedError
-    

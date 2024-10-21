@@ -18,7 +18,7 @@ class UserProfileAttributeMetadata(KeycloakType):
     validators: dict[str, dict[str, Any]] | None = None
     group: str | None = None
     multivalued: bool | None = None
-    
+
     @classmethod
     def from_data(
         cls,
@@ -33,7 +33,7 @@ class UserProfileAttributeGroupMetadata(KeycloakType):
     display_header: str | None = None
     display_description: str | None = None
     annotations: dict[str, Any] | None = None
-    
+
     @classmethod
     def from_data(
         cls,
@@ -46,7 +46,7 @@ class UserProfileAttributeGroupMetadata(KeycloakType):
 class UserProfileMetadata(KeycloakType):
     attributes: list[UserProfileAttributeMetadata] | None = None
     groups: list[UserProfileAttributeGroupMetadata] | None = None
-    
+
     @classmethod
     def from_data(
         cls,
@@ -81,7 +81,7 @@ class UserRepresentation(KeycloakType):
     application_roles: dict[str, list[Any]] | None = None
     groups: list[str] | None = None
     access: dict[str, bool] | None = None
-    
+
     @classmethod
     def from_data(
         cls,
@@ -94,9 +94,7 @@ retort = Retort(
     recipe=[
         name_mapping(
             UserProfileAttributeMetadata,
-            map={
-                'display_name': ('user_profile_metadata', )
-            },
+            map={"display_name": ("user_profile_metadata",)},
         ),
     ],
 )

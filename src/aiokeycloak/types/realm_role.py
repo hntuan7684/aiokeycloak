@@ -12,7 +12,7 @@ from aiokeycloak.types.base import KeycloakType
 class RoleRepresentationComposites(KeycloakType):
     realm: list[str] | None = None
     client: dict[Any, Any] | None = None
-    
+
     @classmethod
     def from_data(
         cls,
@@ -31,7 +31,7 @@ class RealmRole(KeycloakType):
     description: str | None = None
     id: str | None = None
     name: str | None = None
-    
+
     @classmethod
     def from_data(
         cls,
@@ -45,8 +45,8 @@ retort = Retort(
         name_mapping(
             RealmRole,
             map={
-                'client_role': 'clientRole',
-                'container_id': 'containerId',
+                "client_role": "clientRole",
+                "container_id": "containerId",
             },
         ),
     ],

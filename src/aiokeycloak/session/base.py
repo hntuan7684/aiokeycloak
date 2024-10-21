@@ -7,7 +7,7 @@ from aiokeycloak.methods.base import HTTPMethodType, KeycloakMethod
 from aiokeycloak.types.base import KeycloakType
 
 
-T = TypeVar('T', bound=KeycloakType)
+T = TypeVar("T", bound=KeycloakType)
 
 
 @dataclass(slots=True, frozen=True)
@@ -24,7 +24,7 @@ class KeycloakSession(Protocol):
     @abstractmethod
     async def _send_request(self, data: SendRequestDS) -> Any:
         raise NotImplementedError
-    
+
     async def send_request(
         self,
         method: KeycloakMethod[T],
@@ -41,7 +41,7 @@ class KeycloakSession(Protocol):
         )
         data = await self._send_request(send_request_ds)
         return method.__returning__.from_data(data)
-    
+
     @abstractmethod
     async def close(self) -> None:
         raise NotImplementedError

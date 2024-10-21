@@ -14,11 +14,11 @@ class DeleteUser(KeycloakMethod[Success]):
     __url__ = "/admin/realms/{realm_name}/users/{user_id}"
     __returning__ = Success
     __http_method__ = HTTPMethodType.DELETE
-    
+
     user_id: UUID
     realm_name: str
     access_token: str
-    
+
     def build_request_context(self) -> RequestContext:
         return RequestContext(
             headers={
@@ -26,7 +26,7 @@ class DeleteUser(KeycloakMethod[Success]):
                 "Content-Type": "application/x-www-form-urlencoded",
             },
             url_format={
-                'user_id': str(self.user_id),
-                'realm_name': self.realm_name,
+                "user_id": str(self.user_id),
+                "realm_name": self.realm_name,
             },
         )

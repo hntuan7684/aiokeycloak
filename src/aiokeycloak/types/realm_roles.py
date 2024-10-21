@@ -10,7 +10,7 @@ from aiokeycloak.types.base import KeycloakType
 @dataclass(frozen=True, slots=True)
 class RealmRoles(KeycloakType):
     roles: list[RealmRole]
-    
+
     @classmethod
     def from_data(
         cls,

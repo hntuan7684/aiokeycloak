@@ -18,7 +18,7 @@ class Success(KeycloakType):
 @dataclass(frozen=True, slots=True)
 class Raw(KeycloakType):
     data: Any
-    
+
     @classmethod
     def from_data(
         cls,

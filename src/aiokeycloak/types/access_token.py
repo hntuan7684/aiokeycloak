@@ -17,7 +17,7 @@ class AddressClaimSet(KeycloakType):
     postal_code: str | None = None
     region: str | None = None
     street_address: str | None = None
-    
+
     @classmethod
     def from_data(
         cls,
@@ -32,7 +32,7 @@ class Permission(KeycloakType):
     rsid: str | None = None
     rsname: str | None = None
     scopes: list[str] | None = None
-    
+
     @classmethod
     def from_data(
         cls,
@@ -44,7 +44,7 @@ class Permission(KeycloakType):
 @dataclass(frozen=True, slots=True)
 class AccessTokenAuthorization(KeycloakType):
     permissions: list[Permission] | None = None
-    
+
     @classmethod
     def from_data(
         cls,
@@ -54,19 +54,19 @@ class AccessTokenAuthorization(KeycloakType):
 
 
 class CategoryType(StrEnum):
-    INTERNAL = 'INTERNAL'
-    ACCESS = 'ACCESS'
-    ID = 'ID'
-    ADMIN = 'ADMIN'
-    USERINFO = 'USERINFO'
-    LOGOUT = 'LOGOUT'
-    AUTHORIZATION_RESPONSE = 'AUTHORIZATION_RESPONSE'
+    INTERNAL = "INTERNAL"
+    ACCESS = "ACCESS"
+    ID = "ID"
+    ADMIN = "ADMIN"
+    USERINFO = "USERINFO"
+    LOGOUT = "LOGOUT"
+    AUTHORIZATION_RESPONSE = "AUTHORIZATION_RESPONSE"
 
 
 @dataclass(frozen=True, slots=True)
 class AccessTokenCertConf(KeycloakType):
     x5t: str | None = None
-    
+
     @classmethod
     def from_data(
         cls,
@@ -79,7 +79,7 @@ class AccessTokenCertConf(KeycloakType):
 class AccessTokenAccess(KeycloakType):
     roles: list[str] | None = None
     verify_caller: bool | None = None
-    
+
     @classmethod
     def from_data(
         cls,
@@ -133,7 +133,7 @@ class AccessToken(KeycloakType):
     updated_at: int | None = None
     website: str | None = None
     zone_info: str | None = None
-    
+
     @classmethod
     def from_data(
         cls,
@@ -147,17 +147,15 @@ retort = Retort(
         name_mapping(
             AccessToken,
             map={
-                'zone_info': 'zoneinfo',
-                'other_claims': 'otherClaims',
-                'trusted_certs': 'trusted-certs',
-                'allowed_origins': 'allowed-origins',
+                "zone_info": "zoneinfo",
+                "other_claims": "otherClaims",
+                "trusted_certs": "trusted-certs",
+                "allowed_origins": "allowed-origins",
             },
         ),
         name_mapping(
             AccessTokenCertConf,
-            map={
-                'x5t': ('cnf', 'x5t#S256')
-            },
+            map={"x5t": ("cnf", "x5t#S256")},
         ),
     ],
 )

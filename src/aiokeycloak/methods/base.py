@@ -6,7 +6,7 @@ from typing import Any, Protocol, TypeVar
 from aiokeycloak.types.base import KeycloakType
 
 
-T = TypeVar('T', bound=KeycloakType)
+T = TypeVar("T", bound=KeycloakType)
 
 
 class HTTPMethodType(StrEnum):
@@ -28,7 +28,7 @@ class KeycloakMethod(Protocol[T]):
     __url__: str
     __returning__: type[T]
     __http_method__: HTTPMethodType
-    
+
     @abstractmethod
     def build_request_context(self) -> RequestContext:
         raise NotImplementedError
