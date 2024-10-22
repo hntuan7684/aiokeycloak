@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any, TypeVar
 from uuid import UUID
 
+from aiokeycloak.methods.assign_realm_roles_to_user import AssignRealmRolesToUser
 from aiokeycloak.methods.base import KeycloakMethod
 from aiokeycloak.methods.create_user import CreateUser
 from aiokeycloak.methods.delete_user import DeleteUser
@@ -160,5 +161,19 @@ class KeycloakClient:
             realm_name=realm_name,
             access_token=self._access_token,
             user=user,
+        )
+        return await self.send_request(method)
+
+    async def assign_realm_roles_to_user(
+        self,
+        realm_name: str,
+        user_id: UUID,
+        realm_roles_names: list[str],
+    ) -> Success:
+        method = AssignRealmRolesToUser(
+            access_token=self._access_token,
+            realm_name=realm_name,
+            user_id=user_id,
+            realm_roles_names=realm_roles_names,
         )
         return await self.send_request(method)

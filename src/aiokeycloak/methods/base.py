@@ -18,7 +18,7 @@ class HTTPMethodType(StrEnum):
 
 @dataclass(frozen=True, slots=True)
 class RequestContext:
-    body: dict[str, Any] | None = None
+    body: Any | None = None
     headers: dict[str, Any] | None = None
     url_format: dict[str, Any] | None = None
     query_parameters: dict[str, Any] | None = None
