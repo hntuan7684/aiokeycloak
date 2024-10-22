@@ -64,7 +64,7 @@ class User(KeycloakType):
     last_name: str | None = None
     email: str | None = None
     email_verified: bool | None = None
-    attributes: dict[str, list[Any]] | None = None
+    attributes: dict[str, Any] | None = None
     user_profile_metadata: UserProfileMetadata | None = None
     self: str | None = None
     origin: str | None = None
@@ -90,19 +90,25 @@ class User(KeycloakType):
     ) -> User:
         return retort.load(data, cls)
 
+    def serialize(self) -> dict[str, Any]:
+        return retort.dump(self, type(self))
+
 
 retort = Retort(
     recipe=[
         name_mapping(
             UserProfileAttributeMetadata,
+            omit_default=True,
             name_style=NameStyle.CAMEL,
         ),
         name_mapping(
             User,
+            omit_default=True,
             name_style=NameStyle.CAMEL,
         ),
         name_mapping(
             UserProfileAttributeGroupMetadata,
+            omit_default=True,
             name_style=NameStyle.CAMEL,
         ),
     ],

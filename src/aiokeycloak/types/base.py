@@ -12,3 +12,6 @@ class KeycloakType(Protocol):
         data: Any,
     ) -> KeycloakType:
         raise NotImplementedError
+
+    def serialize(self) -> dict[str, Any]:
+        raise NotImplementedError

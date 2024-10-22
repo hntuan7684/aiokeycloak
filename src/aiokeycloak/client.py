@@ -9,10 +9,12 @@ from aiokeycloak.methods.get_realm import GetRealm
 from aiokeycloak.methods.get_realm_roles import GetRealmRoles
 from aiokeycloak.methods.get_user import GetUser
 from aiokeycloak.methods.get_users import GetUsers
+from aiokeycloak.methods.update_user import UpdateUser
 from aiokeycloak.session.base import KeycloakSession
 from aiokeycloak.token_decoders.access import AccessTokenDecoder
 from aiokeycloak.types.access_token import AccessToken
 from aiokeycloak.types.base import KeycloakType
+from aiokeycloak.types.common import Success
 from aiokeycloak.types.realm import Realm
 from aiokeycloak.types.realm_roles import RealmRoles
 from aiokeycloak.types.user import User
@@ -125,5 +127,19 @@ class KeycloakClient:
             last_name=last_name,
             max=max,
             username=username,
+        )
+        return await self.send_request(method)
+
+    async def update_user(
+        self,
+        realm_name: str,
+        user_id: UUID,
+        user_update_data: User,
+    ) -> Success:
+        method = UpdateUser(
+            access_token=self._access_token,
+            realm_name=realm_name,
+            user_id=user_id,
+            user_update_data=user_update_data,
         )
         return await self.send_request(method)
