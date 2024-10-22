@@ -45,7 +45,7 @@ class AioHTTPKeycloakSession(KeycloakSession):
         http_method = self._load_http_method(request.http_method)
         async with http_method(
             url=request.url,
-            data=request.body,
+            json=request.body,
             headers=request.headers,
             params=request.query_parameters,
         ) as response:

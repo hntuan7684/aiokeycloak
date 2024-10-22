@@ -3,7 +3,7 @@ from asyncio import Protocol
 from dataclasses import dataclass
 from typing import Any, cast, TypeVar
 
-from aiokeycloak.errors import KeycloakError
+from aiokeycloak.errors import KeycloakError, KeycloakUnauthorizedError
 from aiokeycloak.methods.base import HTTPMethodType, KeycloakMethod
 from aiokeycloak.types.base import KeycloakType
 
@@ -35,11 +35,25 @@ def error_handling(response: ResponseDS) -> None:
         return None
 
     error = response.body["error"]
+    error_description = response.body.get("error_description")
+
+    if "Unauthorized" in error:
+        raise KeycloakUnauthorizedError(
+            "Unauthorized client. %r" % (error_description or error),
+            raw_error=error,
+            url=response.url,
+            raw_body=response.body,
+            http_status=response.http_status,
+        )
+
     raise KeycloakError(
-        "An error has occurred. Url %r. %r." % (response.url, error),
+        (
+            "An error has occurred. Url %r. %r."
+            % (response.url, error_description or error)
+        ),
         raw_error=error,
         url=response.url,
-        body=response.body,
+        raw_body=response.body,
         http_status=response.http_status,
     )
 
@@ -54,6 +68,7 @@ class KeycloakSession(Protocol):
         method: KeycloakMethod[T],
     ) -> T:
         request_context = method.build_request_context()
+        print(request_context)
         send_request_ds = RequestDS(
             body=request_context.body,
             headers=request_context.headers,
