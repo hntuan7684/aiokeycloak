@@ -3,7 +3,7 @@ from __future__ import annotations
 from types import TracebackType
 
 from aiokeycloak.client import KeycloakClient
-from aiokeycloak.session.base import KeycloakSession
+from aiokeycloak.sessions.base import KeycloakSession
 
 
 class KeycloakClientFactory:

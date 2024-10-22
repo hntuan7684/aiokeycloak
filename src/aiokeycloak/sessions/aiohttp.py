@@ -6,7 +6,7 @@ from aiohttp.client import _RequestContextManager, _RequestOptions
 from aiohttp.typedefs import StrOrURL
 
 from aiokeycloak.methods.base import HTTPMethodType
-from aiokeycloak.session.base import KeycloakSession, RequestDS, ResponseDS
+from aiokeycloak.sessions.base import KeycloakSession, RequestDS, ResponseDS
 
 
 class AioHTTPMethod(Protocol):

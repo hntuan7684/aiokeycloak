@@ -10,7 +10,7 @@ from aiokeycloak.methods.get_realm_roles import GetRealmRoles
 from aiokeycloak.methods.get_user import GetUser
 from aiokeycloak.methods.get_users import GetUsers
 from aiokeycloak.methods.update_user import UpdateUser
-from aiokeycloak.session.base import KeycloakSession
+from aiokeycloak.sessions.base import KeycloakSession
 from aiokeycloak.token_decoders.access import AccessTokenDecoder
 from aiokeycloak.types.access_token import AccessToken
 from aiokeycloak.types.base import KeycloakType
