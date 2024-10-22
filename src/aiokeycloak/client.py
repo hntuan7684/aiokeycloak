@@ -4,6 +4,7 @@ from typing import Any, TypeVar
 from uuid import UUID
 
 from aiokeycloak.methods.base import KeycloakMethod
+from aiokeycloak.methods.create_user import CreateUser
 from aiokeycloak.methods.delete_user import DeleteUser
 from aiokeycloak.methods.get_realm import GetRealm
 from aiokeycloak.methods.get_realm_roles import GetRealmRoles
@@ -13,8 +14,9 @@ from aiokeycloak.methods.update_user import UpdateUser
 from aiokeycloak.sessions.base import KeycloakSession
 from aiokeycloak.token_decoders.access import AccessTokenDecoder
 from aiokeycloak.types.access_token import AccessToken
-from aiokeycloak.types.base import KeycloakType
+from aiokeycloak.types.base import FromResponse, KeycloakType
 from aiokeycloak.types.common import Success
+from aiokeycloak.types.created_user_id import CreatedUserId
 from aiokeycloak.types.realm import Realm
 from aiokeycloak.types.realm_roles import RealmRoles
 from aiokeycloak.types.user import User
@@ -73,7 +75,12 @@ class KeycloakClient:
             validate=validate,
             **kwargs,
         )
-        return AccessToken.from_data(decode_access_token)
+        return AccessToken.from_response(
+            FromResponse(
+                headers={},
+                body=decode_access_token,
+            ),
+        )
 
     async def delete_user(
         self,
@@ -141,5 +148,17 @@ class KeycloakClient:
             realm_name=realm_name,
             user_id=user_id,
             user_update_data=user_update_data,
+        )
+        return await self.send_request(method)
+
+    async def create_user(
+        self,
+        realm_name: str,
+        user: User,
+    ) -> CreatedUserId:
+        method = CreateUser(
+            realm_name=realm_name,
+            access_token=self._access_token,
+            user=user,
         )
         return await self.send_request(method)

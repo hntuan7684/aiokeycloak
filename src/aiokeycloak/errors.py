@@ -12,5 +12,10 @@ class KeycloakError(Exception):
 
 
 @dataclass
-class KeycloakUnauthorizedError(KeycloakError):
+class UnauthorizedError(KeycloakError):
+    pass
+
+
+@dataclass
+class UserExistsError(KeycloakError):
     pass

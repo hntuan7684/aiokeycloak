@@ -1,15 +1,20 @@
 from __future__ import annotations
 
-from abc import abstractmethod
+from dataclasses import dataclass
 from typing import Any, Protocol
+
+
+@dataclass
+class FromResponse:
+    body: Any
+    headers: dict[str, Any]
 
 
 class KeycloakType(Protocol):
     @classmethod
-    @abstractmethod
-    def from_data(
+    def from_response(
         cls,
-        data: Any,
+        data: FromResponse,
     ) -> KeycloakType:
         raise NotImplementedError
 

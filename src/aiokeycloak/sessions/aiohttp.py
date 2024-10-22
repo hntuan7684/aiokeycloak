@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import Protocol, Unpack
 
-from aiohttp import ClientSession
+from aiohttp import ClientSession, ContentTypeError
 from aiohttp.client import _RequestContextManager, _RequestOptions
 from aiohttp.typedefs import StrOrURL
 
@@ -49,15 +49,16 @@ class AioHTTPKeycloakSession(KeycloakSession):
             headers=request.headers,
             params=request.query_parameters,
         ) as response:
-            if response.status == 204:
-                body = {}
-            else:
+            try:
                 body = await response.json(encoding="utf-8")
+            except ContentTypeError:
+                body = (await response.read()).decode(encoding="utf-8")
 
             return ResponseDS(
                 body=body,
                 url=request.url,
                 http_status=response.status,
+                headers=dict(response.headers),
             )
 
     async def close(self) -> None:

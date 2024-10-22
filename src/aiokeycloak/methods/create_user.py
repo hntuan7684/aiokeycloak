@@ -1,31 +1,28 @@
 from dataclasses import dataclass
-from uuid import UUID
 
 from aiokeycloak.methods.base import (
     HTTPMethodType,
     KeycloakMethod,
     RequestContext,
 )
-from aiokeycloak.types.common import Success
+from aiokeycloak.types.created_user_id import CreatedUserId
 from aiokeycloak.types.user import User
 
 
 @dataclass(frozen=True, slots=True)
-class UpdateUser(KeycloakMethod[Success]):
-    __url__ = "/admin/realms/{realm_name}/users/{user_id}"
-    __returning__ = Success
-    __http_method__ = HTTPMethodType.PUT
+class CreateUser(KeycloakMethod[CreatedUserId]):
+    __url__ = "/admin/realms/{realm_name}/users"
+    __returning__ = CreatedUserId
+    __http_method__ = HTTPMethodType.POST
 
-    access_token: str
     realm_name: str
-    user_id: UUID
-    user_update_data: User
+    access_token: str
+    user: User
 
     def build_request_context(self) -> RequestContext:
         return RequestContext(
-            body=self.user_update_data.serialize(),
+            body=self.user.serialize(),
             url_format={
-                "user_id": str(self.user_id),
                 "realm_name": self.realm_name,
             },
             headers={

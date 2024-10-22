@@ -1,26 +1,19 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from uuid import UUID
 
 from aiokeycloak.types.base import FromResponse, KeycloakType
 
 
-class Success(KeycloakType):
-    @classmethod
-    def from_response(
-        cls,
-        data: FromResponse,
-    ) -> Success:
-        return cls()
-
-
 @dataclass(frozen=True, slots=True)
-class Raw(KeycloakType):
-    data: FromResponse
+class CreatedUserId(KeycloakType):
+    user_id: UUID
 
     @classmethod
     def from_response(
         cls,
         data: FromResponse,
-    ) -> Raw:
-        return cls(data)
+    ) -> CreatedUserId:
+        location = data.headers["Location"]
+        return cls(UUID(location.split("/")[-1]))

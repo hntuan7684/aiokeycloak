@@ -6,7 +6,7 @@ from typing import Any
 
 from adaptix import name_mapping, Retort
 
-from aiokeycloak.types.base import KeycloakType
+from aiokeycloak.types.base import FromResponse, KeycloakType
 
 
 @dataclass(frozen=True, slots=True)
@@ -18,13 +18,6 @@ class AddressClaimSet(KeycloakType):
     region: str | None = None
     street_address: str | None = None
 
-    @classmethod
-    def from_data(
-        cls,
-        data: Any,
-    ) -> KeycloakType:
-        raise NotImplementedError
-
 
 @dataclass(frozen=True, slots=True)
 class Permission(KeycloakType):
@@ -33,24 +26,10 @@ class Permission(KeycloakType):
     rsname: str | None = None
     scopes: list[str] | None = None
 
-    @classmethod
-    def from_data(
-        cls,
-        data: Any,
-    ) -> KeycloakType:
-        raise NotImplementedError
-
 
 @dataclass(frozen=True, slots=True)
 class AccessTokenAuthorization(KeycloakType):
     permissions: list[Permission] | None = None
-
-    @classmethod
-    def from_data(
-        cls,
-        data: Any,
-    ) -> KeycloakType:
-        raise NotImplementedError
 
 
 class CategoryType(StrEnum):
@@ -67,25 +46,11 @@ class CategoryType(StrEnum):
 class AccessTokenCertConf(KeycloakType):
     x5t: str | None = None
 
-    @classmethod
-    def from_data(
-        cls,
-        data: Any,
-    ) -> KeycloakType:
-        raise NotImplementedError
-
 
 @dataclass(frozen=True, slots=True)
 class AccessTokenAccess(KeycloakType):
     roles: list[str] | None = None
     verify_caller: bool | None = None
-
-    @classmethod
-    def from_data(
-        cls,
-        data: Any,
-    ) -> KeycloakType:
-        raise NotImplementedError
 
 
 @dataclass(frozen=True, slots=True)
@@ -135,11 +100,11 @@ class AccessToken(KeycloakType):
     zone_info: str | None = None
 
     @classmethod
-    def from_data(
+    def from_response(
         cls,
-        data: Any,
+        data: FromResponse,
     ) -> AccessToken:
-        return retort.load(data, cls)
+        return retort.load(data.body, cls)
 
 
 retort = Retort(

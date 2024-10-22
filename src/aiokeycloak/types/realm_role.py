@@ -5,20 +5,13 @@ from typing import Any
 
 from adaptix import name_mapping, Retort
 
-from aiokeycloak.types.base import KeycloakType
+from aiokeycloak.types.base import FromResponse, KeycloakType
 
 
 @dataclass(frozen=True, slots=True)
 class RoleRepresentationComposites(KeycloakType):
     realm: list[str] | None = None
     client: dict[Any, Any] | None = None
-
-    @classmethod
-    def from_data(
-        cls,
-        data: Any,
-    ) -> RoleRepresentationComposites:
-        raise NotImplementedError
 
 
 @dataclass(frozen=True, slots=True)
@@ -33,11 +26,11 @@ class RealmRole(KeycloakType):
     name: str | None = None
 
     @classmethod
-    def from_data(
+    def from_response(
         cls,
-        data: dict[str, Any],
+        data: FromResponse,
     ) -> RealmRole:
-        return retort.load(data, cls)
+        return retort.load(data.body, cls)
 
 
 retort = Retort(

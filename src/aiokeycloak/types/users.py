@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
 
-from aiokeycloak.types.base import KeycloakType
+from aiokeycloak.types.base import FromResponse, KeycloakType
 from aiokeycloak.types.user import User
 
 
@@ -12,11 +11,18 @@ class Users(KeycloakType):
     users: list[User]
 
     @classmethod
-    def from_data(
+    def from_response(
         cls,
-        data: list[dict[str, Any]],
+        data: FromResponse,
     ) -> Users:
         users = []
-        for datum in data:
-            users.append(User.from_data(datum))
+        for body in data.body:
+            users.append(
+                User.from_response(
+                    FromResponse(
+                        body=body,
+                        headers=data.headers,
+                    )
+                ),
+            )
         return cls(users=users)

@@ -1,9 +1,8 @@
 from dataclasses import dataclass
-from typing import Any
 
 from adaptix import name_mapping, Retort
 
-from aiokeycloak.types.base import KeycloakType
+from aiokeycloak.types.base import FromResponse, KeycloakType
 
 retort = Retort(
     recipe=[
@@ -28,8 +27,8 @@ class Realm(KeycloakType):
     tokens_not_before: int
 
     @classmethod
-    def from_data(
+    def from_response(
         cls,
-        data: Any,
+        data: FromResponse,
     ) -> KeycloakType:
-        return retort.load(data, cls)
+        return retort.load(data.body, cls)

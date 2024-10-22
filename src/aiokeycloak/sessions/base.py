@@ -3,9 +3,13 @@ from asyncio import Protocol
 from dataclasses import dataclass
 from typing import Any, cast, TypeVar
 
-from aiokeycloak.errors import KeycloakError, KeycloakUnauthorizedError
+from aiokeycloak.errors import (
+    KeycloakError,
+    UnauthorizedError,
+    UserExistsError,
+)
 from aiokeycloak.methods.base import HTTPMethodType, KeycloakMethod
-from aiokeycloak.types.base import KeycloakType
+from aiokeycloak.types.base import FromResponse, KeycloakType
 
 
 T = TypeVar("T", bound=KeycloakType)
@@ -25,36 +29,40 @@ class ResponseDS:
     url: str
     body: Any
     http_status: int
+    headers: dict[str, Any]
 
 
 def error_handling(response: ResponseDS) -> None:
     if not isinstance(response.body, dict):
         return None
 
-    if "error" not in response.body:
+    if response.http_status < 400:
         return None
 
-    error = response.body["error"]
-    error_description = response.body.get("error_description")
-
+    error: str = (
+        response.body.get("error")
+        or response.body.get("error_description")
+        or response.body.get("errorMessage")
+        or ""
+    )
+    error_data: dict[str, Any] = {
+        "raw_error": error,
+        "url": response.url,
+        "raw_body": response.body,
+        "http_status": response.http_status,
+    }
     if "Unauthorized" in error:
-        raise KeycloakUnauthorizedError(
-            "Unauthorized client. %r" % (error_description or error),
-            raw_error=error,
-            url=response.url,
-            raw_body=response.body,
-            http_status=response.http_status,
+        raise UnauthorizedError(
+            "Unauthorized client. %s" % error,
+            **error_data,
         )
 
+    if "User exists" in error:
+        raise UserExistsError(error, **error_data)
+
     raise KeycloakError(
-        (
-            "An error has occurred. Url %r. %r."
-            % (response.url, error_description or error)
-        ),
-        raw_error=error,
-        url=response.url,
-        raw_body=response.body,
-        http_status=response.http_status,
+        "An error has occurred. Url %r. %r." % (response.url, error),
+        **error_data,
     )
 
 
@@ -68,7 +76,6 @@ class KeycloakSession(Protocol):
         method: KeycloakMethod[T],
     ) -> T:
         request_context = method.build_request_context()
-        print(request_context)
         send_request_ds = RequestDS(
             body=request_context.body,
             headers=request_context.headers,
@@ -80,7 +87,13 @@ class KeycloakSession(Protocol):
         )
         data = await self._send_request(send_request_ds)
         error_handling(data)
-        return cast(T, method.__returning__.from_data(data))
+        returning = method.__returning__.from_response(
+            FromResponse(
+                body=data.body,
+                headers=data.headers,
+            ),
+        )
+        return cast(T, returning)
 
     @abstractmethod
     async def close(self) -> None:

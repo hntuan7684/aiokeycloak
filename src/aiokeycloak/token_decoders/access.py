@@ -1,7 +1,7 @@
 import json
-from typing import Any, Final
+from typing import Any, cast, Final
 
-from jwcrypto import jwk, jwt
+from jwcrypto import jwk, jwt  # type: ignore[import-untyped]
 
 
 BEGIN_PUBLIC_KEY: Final = "-----BEGIN PUBLIC KEY-----\n"
@@ -18,7 +18,10 @@ class AccessTokenDecoder:
         if not validate:
             full_jwt = jwt.JWT(jwt=self._access_token, **kwargs)
             full_jwt.token.objects["valid"] = True
-            return json.loads(full_jwt.token.payload.decode("utf-8"))
+            return cast(
+                dict[str, Any],
+                json.loads(full_jwt.token.payload.decode("utf-8")),
+            )
 
         if "key" not in kwargs:
             key = BEGIN_PUBLIC_KEY + public_key + END_PUBLIC_KEY
@@ -30,4 +33,4 @@ class AccessTokenDecoder:
         full_jwt = jwt.JWT(jwt=self._access_token, **kwargs)
         full_jwt.leeway = leeway
         full_jwt.validate(key)
-        return jwt.json_decode(full_jwt.claims)
+        return cast(dict[str, Any], jwt.json_decode(full_jwt.claims))

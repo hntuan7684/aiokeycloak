@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, cast
 from uuid import UUID
 
 from adaptix import name_mapping, NameStyle, Retort
 
-from aiokeycloak.types.base import KeycloakType
+from aiokeycloak.types.base import FromResponse, KeycloakType
 
 
 @dataclass(frozen=True, slots=True)
@@ -20,13 +20,6 @@ class UserProfileAttributeMetadata(KeycloakType):
     group: str | None = None
     multivalued: bool | None = None
 
-    @classmethod
-    def from_data(
-        cls,
-        data: Any,
-    ) -> UserProfileAttributeMetadata:
-        raise NotImplementedError
-
 
 @dataclass(frozen=True, slots=True)
 class UserProfileAttributeGroupMetadata(KeycloakType):
@@ -35,25 +28,11 @@ class UserProfileAttributeGroupMetadata(KeycloakType):
     display_description: str | None = None
     annotations: dict[str, Any] | None = None
 
-    @classmethod
-    def from_data(
-        cls,
-        data: Any,
-    ) -> UserProfileMetadata:
-        raise NotImplementedError
-
 
 @dataclass(frozen=True, slots=True)
 class UserProfileMetadata(KeycloakType):
     attributes: list[UserProfileAttributeMetadata] | None = None
     groups: list[UserProfileAttributeGroupMetadata] | None = None
-
-    @classmethod
-    def from_data(
-        cls,
-        data: Any,
-    ) -> UserProfileMetadata:
-        raise NotImplementedError
 
 
 @dataclass(frozen=True, slots=True)
@@ -84,14 +63,17 @@ class User(KeycloakType):
     access: dict[str, bool] | None = None
 
     @classmethod
-    def from_data(
+    def from_response(
         cls,
-        data: dict[str, str],
+        data: FromResponse,
     ) -> User:
-        return retort.load(data, cls)
+        return retort.load(data.body, cls)
 
     def serialize(self) -> dict[str, Any]:
-        return retort.dump(self, type(self))
+        return cast(
+            dict[str, Any],
+            retort.dump(self, type(self)),
+        )
 
 
 retort = Retort(
