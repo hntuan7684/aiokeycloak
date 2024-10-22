@@ -3,18 +3,11 @@ from __future__ import annotations
 from types import TracebackType
 
 from aiokeycloak.client import KeycloakClient
-from aiokeycloak.session.aiohttp import AioHTTPKeycloakSession
 from aiokeycloak.session.base import KeycloakSession
 
 
 class KeycloakClientFactory:
-    def __init__(
-        self,
-        server_url: str,
-        session: KeycloakSession | None = None,
-    ) -> None:
-        if session is None:
-            session = AioHTTPKeycloakSession(server_url)
+    def __init__(self, session: KeycloakSession) -> None:
         self._session = session
 
     async def __aenter__(self) -> KeycloakClientFactory:
