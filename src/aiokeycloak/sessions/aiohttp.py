@@ -1,8 +1,8 @@
 from abc import abstractmethod
-from typing import Protocol, Unpack
+from typing import Any, Protocol, cast
 
 from aiohttp import ClientSession, ContentTypeError
-from aiohttp.client import _RequestContextManager, _RequestOptions
+from aiohttp.client import _RequestContextManager
 from aiohttp.typedefs import StrOrURL
 
 from aiokeycloak.methods.base import HTTPMethodType
@@ -14,7 +14,7 @@ class AioHTTPMethod(Protocol):
     def __call__(
         self,
         url: StrOrURL,
-        **kwargs: Unpack[_RequestOptions],
+        **kwargs: Any,
     ) -> _RequestContextManager:
         raise NotImplementedError
 
@@ -27,17 +27,19 @@ class AioHTTPKeycloakSession(KeycloakSession):
         self._client_session = ClientSession(server_url)
 
     def _load_http_method(self, http_method: HTTPMethodType) -> AioHTTPMethod:
+        method: Any
         if http_method == HTTPMethodType.GET:
-            return self._client_session.get
+            method = AioHTTPMethod, self._client_session.get
         elif http_method == HTTPMethodType.PUT:
-            return self._client_session.put
+            method = self._client_session.put
         elif http_method == HTTPMethodType.POST:
-            return self._client_session.post
+            method = self._client_session.post
         elif http_method == HTTPMethodType.DELETE:
-            return self._client_session.delete
+            method = self._client_session.delete
         else:
             msg = f"Unknown http method {http_method!r}"
             raise ValueError(msg)
+        return cast(AioHTTPMethod, method)
 
     async def _send_request(
         self,

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import StrEnum
+from enum import Enum
 from typing import Any
 
 from adaptix import Retort, name_mapping
@@ -32,14 +32,14 @@ class AccessTokenAuthorization(KeycloakType):
     permissions: list[Permission] | None = None
 
 
-class CategoryType(StrEnum):
-    INTERNAL = "INTERNAL"
-    ACCESS = "ACCESS"
-    ID = "ID"
-    ADMIN = "ADMIN"
-    USERINFO = "USERINFO"
-    LOGOUT = "LOGOUT"
-    AUTHORIZATION_RESPONSE = "AUTHORIZATION_RESPONSE"
+class CategoryType(str, Enum):
+    INTERNAL = "internal"
+    ACCESS = "access"
+    ID = "id"
+    ADMIN = "admin"
+    USERINFO = "userinfo"
+    LOGOUT = "logout"
+    AUTHORIZATION_RESPONSE = "authorization_response"
 
 
 @dataclass(frozen=True, slots=True)

@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from dataclasses import dataclass
-from enum import StrEnum, auto
+from enum import Enum
 from typing import Any, Protocol, TypeVar
 
 from aiokeycloak.types.base import KeycloakType
@@ -8,11 +8,11 @@ from aiokeycloak.types.base import KeycloakType
 T = TypeVar("T", bound=KeycloakType)
 
 
-class HTTPMethodType(StrEnum):
-    GET = auto()
-    PUT = auto()
-    POST = auto()
-    DELETE = auto()
+class HTTPMethodType(str, Enum):
+    GET = "get"
+    PUT = "put"
+    POST = "post"
+    DELETE = "delete"
 
 
 @dataclass(frozen=True, slots=True)
