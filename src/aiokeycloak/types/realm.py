@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from adaptix import name_mapping, Retort
+from adaptix import Retort, name_mapping
 
 from aiokeycloak.types.base import FromResponse, KeycloakType
 

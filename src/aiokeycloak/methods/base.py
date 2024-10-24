@@ -1,10 +1,9 @@
 from abc import abstractmethod
 from dataclasses import dataclass
-from enum import auto, StrEnum
+from enum import StrEnum, auto
 from typing import Any, Protocol, TypeVar
 
 from aiokeycloak.types.base import KeycloakType
-
 
 T = TypeVar("T", bound=KeycloakType)
 

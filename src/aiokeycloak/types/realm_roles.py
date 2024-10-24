@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from aiokeycloak.types.realm_role import RealmRole
 from aiokeycloak.types.base import FromResponse, KeycloakType
+from aiokeycloak.types.realm_role import RealmRole
 
 
 @dataclass(frozen=True, slots=True)

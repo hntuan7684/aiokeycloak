@@ -36,7 +36,8 @@ class AioHTTPKeycloakSession(KeycloakSession):
         elif http_method == HTTPMethodType.DELETE:
             return self._client_session.delete
         else:
-            raise ValueError("Unknown http method %r" % http_method)
+            msg = f"Unknown http method {http_method!r}"
+            raise ValueError(msg)
 
     async def _send_request(
         self,

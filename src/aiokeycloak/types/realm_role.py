@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Any, cast
 from uuid import UUID
 
-from adaptix import name_mapping, NameStyle, Retort
+from adaptix import NameStyle, Retort, name_mapping
 
 from aiokeycloak.types.base import FromResponse, KeycloakType
 

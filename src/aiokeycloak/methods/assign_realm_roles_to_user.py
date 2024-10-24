@@ -23,7 +23,8 @@ class AssignRealmRolesToUser(KeycloakMethod[Success]):
     def build_request_context(self) -> RequestContext:
         return RequestContext(
             body=[
-                {"name": realm_role_name} for realm_role_name in self.realm_roles_names
+                {"name": realm_role_name}
+                for realm_role_name in self.realm_roles_names
             ],
             url_format={
                 "realm_name": self.realm_name,

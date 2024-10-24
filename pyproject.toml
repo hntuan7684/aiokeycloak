@@ -3,7 +3,7 @@ requires = ["setuptools>=75.2.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = 'aiokycloak'
+name = 'aiokeycloak'
 description = ''
 requires-python = '>= 3.10.0'
 version = '0.0.1'
@@ -17,8 +17,14 @@ dependencies = [
 
 [project.optional-dependencies]
 aiohttp = ['aiohttp==3.10.0']
+integrations = [
+    'aiokeycloak[aiohttp]',
+]
 linters = [
     'mypy==1.12.1',
     'ruff==0.7.0',
 ]
-dev = ['aiokycloak[linters]']
+dev = [
+    'aiokeycloak[linters]',
+    'aiokeycloak[integrations]'
+]

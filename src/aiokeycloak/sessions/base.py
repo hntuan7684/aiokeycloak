@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from asyncio import Protocol
 from dataclasses import dataclass
-from typing import Any, cast, TypeVar
+from typing import Any, TypeVar, cast
 
 from aiokeycloak.errors import (
     KeycloakError,
@@ -10,7 +10,6 @@ from aiokeycloak.errors import (
 )
 from aiokeycloak.methods.base import HTTPMethodType, KeycloakMethod
 from aiokeycloak.types.base import FromResponse, KeycloakType
-
 
 T = TypeVar("T", bound=KeycloakType)
 
@@ -34,10 +33,10 @@ class ResponseDS:
 
 def error_handling(response: ResponseDS) -> None:
     if not isinstance(response.body, dict):
-        return None
+        return
 
     if response.http_status < 400:
-        return None
+        return
 
     error: str = (
         response.body.get("error")
@@ -52,16 +51,18 @@ def error_handling(response: ResponseDS) -> None:
         "http_status": response.http_status,
     }
     if "Unauthorized" in error:
+        msg = f"Unauthorized client. {error}"
         raise UnauthorizedError(
-            "Unauthorized client. %s" % error,
+            msg,
             **error_data,
         )
 
     if "User exists" in error:
         raise UserExistsError(error, **error_data)
 
+    msg = f"An error has occurred. Url {response.url!r}. {error!r}."
     raise KeycloakError(
-        "An error has occurred. Url %r. %r." % (response.url, error),
+        msg,
         **error_data,
     )
 

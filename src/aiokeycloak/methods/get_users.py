@@ -50,5 +50,7 @@ class GetUsers(KeycloakMethod[Users]):
                 "Content-Type": "application/json",
                 "Authorization": f"Bearer {self.access_token}",
             },
-            query_parameters={data[0]: data[1] for data in query_parameters if data[1]},
+            query_parameters={
+                data[0]: data[1] for data in query_parameters if data[1]
+            },
         )

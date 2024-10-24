@@ -3,7 +3,9 @@ from __future__ import annotations
 from typing import Any, TypeVar
 from uuid import UUID
 
-from aiokeycloak.methods.assign_realm_roles_to_user import AssignRealmRolesToUser
+from aiokeycloak.methods.assign_realm_roles_to_user import (
+    AssignRealmRolesToUser,
+)
 from aiokeycloak.methods.base import KeycloakMethod
 from aiokeycloak.methods.create_user import CreateUser
 from aiokeycloak.methods.delete_user import DeleteUser
@@ -22,7 +24,6 @@ from aiokeycloak.types.realm import Realm
 from aiokeycloak.types.realm_roles import RealmRoles
 from aiokeycloak.types.user import User
 from aiokeycloak.types.users import Users
-
 
 T = TypeVar("T", bound=KeycloakType)
 
@@ -47,14 +48,14 @@ class KeycloakClient:
         self,
         realm_name: str,
         *,
-        max: int | None = None,
+        max_: int | None = None,
         first: int | None = None,
         search: str | None = None,
         brief_representation: bool | None = None,
     ) -> RealmRoles:
         method = GetRealmRoles(
             realm_name=realm_name,
-            max=max,
+            max=max_,
             first=first,
             search=search,
             access_token=self._access_token,
@@ -119,7 +120,7 @@ class KeycloakClient:
         first: int | None = None,
         first_name: str | None = None,
         last_name: str | None = None,
-        max: int | None = None,
+        max_: int | None = None,
         username: str | None = None,
     ) -> Users:
         method = GetUsers(
@@ -133,7 +134,7 @@ class KeycloakClient:
             first=first,
             first_name=first_name,
             last_name=last_name,
-            max=max,
+            max=max_,
             username=username,
         )
         return await self.send_request(method)

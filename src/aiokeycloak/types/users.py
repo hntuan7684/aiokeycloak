@@ -22,7 +22,7 @@ class Users(KeycloakType):
                     FromResponse(
                         body=body,
                         headers=data.headers,
-                    )
+                    ),
                 ),
             )
         return cls(users=users)
