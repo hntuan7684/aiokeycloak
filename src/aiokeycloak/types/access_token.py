@@ -98,6 +98,7 @@ class AccessToken(KeycloakType):
     updated_at: int | None = None
     website: str | None = None
     zone_info: str | None = None
+    sub: str | None = None
 
     @classmethod
     def from_response(
