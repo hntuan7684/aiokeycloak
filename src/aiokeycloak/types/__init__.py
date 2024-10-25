@@ -1,4 +1,12 @@
-import access_token
+from .access_token import (
+    AddressClaimSet,
+    Permission,
+    AccessTokenAuthorization,
+    CategoryType,
+    AccessTokenCertConf,
+    AccessTokenAccess,
+    AccessToken,
+)
 from .base import FromResponse, KeycloakType
 from .common import Success, Raw
 from .created_user_id import CreatedUserId
@@ -9,7 +17,13 @@ from .user import User
 from .users import Users
 
 __all__ = [
-    access_token,
+    "AddressClaimSet",
+    "Permission",
+    "AccessTokenAuthorization",
+    "CategoryType",
+    "AccessTokenCertConf",
+    "AccessTokenAccess",
+    "AccessToken",
     "FromResponse",
     "KeycloakType",
     "Success",
