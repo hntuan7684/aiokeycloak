@@ -29,7 +29,7 @@ class AioHTTPKeycloakSession(KeycloakSession):
     def _load_http_method(self, http_method: HTTPMethodType) -> AioHTTPMethod:
         method: Any
         if http_method == HTTPMethodType.GET:
-            method = AioHTTPMethod, self._client_session.get
+            method = self._client_session.get
         elif http_method == HTTPMethodType.PUT:
             method = self._client_session.put
         elif http_method == HTTPMethodType.POST:
