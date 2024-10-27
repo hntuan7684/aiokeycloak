@@ -1,12 +1,4 @@
-from .access_token import (
-    AddressClaimSet,
-    Permission,
-    AccessTokenAuthorization,
-    CategoryType,
-    AccessTokenCertConf,
-    AccessTokenAccess,
-    AccessToken,
-)
+from .access_token import AddressClaimSet, Permission, AccessTokenAuthorization, CategoryType, AccessTokenCertConf, AccessTokenAccess, AccessToken
 from .base import FromResponse, KeycloakType
 from .common import Success, Raw
 from .created_user_id import CreatedUserId
@@ -34,5 +26,5 @@ __all__ = [
     "RealmRoles",
     "Realm",
     "User",
-    "Users"
+    "Users",
 ]
