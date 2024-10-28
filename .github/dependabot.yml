@@ -1,0 +1,21 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: weekly
+    target-branch: "develop"
+    groups:
+      pip-updates:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: weekly
+    target-branch: "develop"
+    groups:
+      github-action-updates:
+        patterns:
+          - "*"
