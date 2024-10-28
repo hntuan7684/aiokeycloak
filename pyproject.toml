@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools>=75.2.0"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = 'aiokeycloak'
@@ -11,12 +11,12 @@ maintainers = [
     { name = 'Ivan Kirpichnikov', email = 'mmssvvvv570@gmail.com' }
 ]
 dependencies = [
-    'adaptix==3.0.0b7',
-    'jwcrypto==1.5.6',
+    'adaptix>=3.0.0b5, <4.0.0',
+    'jwcrypto>=1.5.6, <2.0.0',
 ]
 
 [project.optional-dependencies]
-aiohttp = ['aiohttp==3.10.0']
+aiohttp = ['aiohttp>=3.5.0,<4.0.0']
 integrations = [
     'aiokeycloak[aiohttp]',
 ]
